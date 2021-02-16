@@ -1,0 +1,16 @@
+version: '2.2'
+services:
+    subscription-postgresql:
+        extends:
+            file: postgresql.yml
+            service: subscription-postgresql
+        ports:
+            - 5432:5432
+    rabbitmq-service:
+        image: rabbitmq:management
+        ports:
+            - 15672:15672
+            - 5672:5672
+        volumes:
+         - ./rabbitmq_config/definitions.json:/etc/rabbitmq/definitions.json
+         - ./rabbitmq_config/rabbitmq.config:/etc/rabbitmq/rabbitmq.config

@@ -1,0 +1,8 @@
+version: '2.2'
+services:
+   subscription-postgresql:
+        image: postgres:9.6.2
+        environment:
+            - POSTGRES_DB=subscriptiondb
+            - POSTGRES_USER=subscriptionUser
+            - POSTGRES_PASSWORD=

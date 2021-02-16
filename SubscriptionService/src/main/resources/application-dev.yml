@@ -1,0 +1,31 @@
+spring:
+    datasource:
+        url: jdbc:postgresql://localhost:5432/subscriptiondb
+        username: subscriptionUser
+        password: subscriptionPass
+        driverClassName: org.postgresql.Driver
+    jpa:
+        database: POSTGRESQL
+        show-sql: false
+        hibernate:
+            ddl-auto: create
+        properties:
+            hibernate:
+                show_sql: true
+                sql_comments: true
+                format_sql: true
+    rabbitmq:
+        host: localhost
+        port: 5672
+        addresses: localhost:5672
+        username: guest
+        password: guest
+        virtual-host: /
+        dynamic: true
+                
+subscriptionService:
+    security:
+        userName: user
+        password: password
+    rabbitmq:
+        queue: subscriptionQueue

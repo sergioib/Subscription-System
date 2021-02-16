@@ -1,0 +1,50 @@
+version: '2.2'
+services:
+    subscription-postgresql:
+        extends:
+            file: postgresql.yml
+            service: subscription-postgresql
+        networks:
+            - mynet
+    public-subscription-service:
+        image: public-subscription-microservice
+        networks:
+            - mynet
+        ports:
+            - 8885:8080
+        environment:
+            - SERVER_PORT=8080
+            - SPRING_DATASOURCE_URL=jdbc:postgresql://subscription-postgresql:5432/subscriptiondb
+            - SUBSCRIPTIONSERVICE_URL=http://subscription-service:8080
+    subscription-service:
+        image: subscription-microservice
+        networks:
+            - mynet
+        environment:
+            - SPRING_DATASOURCE_URL=jdbc:postgresql://subscription-postgresql:5432/subscriptiondb
+            - SERVER_PORT=8080
+            - SPRING_RABBITMQ_HOST=rabbitmq-service
+            - SPRING_RABBITMQ_ADDRESSES=rabbitmq-service:5672
+    rabbitmq-service:
+        image: rabbitmq:management
+        networks:
+            - mynet
+        ports:
+            - 15672:15672
+            - 5672:5672
+        volumes:
+         - ./rabbitmq_config/definitions.json:/etc/rabbitmq/definitions.json
+         - ./rabbitmq_config/rabbitmq.config:/etc/rabbitmq/rabbitmq.config
+        networks:
+            - mynet
+    email-service:
+        image: email-microservice
+        networks:
+            - mynet
+        environment:
+            - SERVER_PORT=8080
+            - SPRING_RABBITMQ_HOST=rabbitmq-service
+            - SPRING_RABBITMQ_ADDRESSES=rabbitmq-service:5672
+networks:
+    mynet:
+        driver: bridge

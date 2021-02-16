@@ -1,0 +1,8 @@
+server:
+  port: 8884
+  
+spring:
+    application:
+      name: Subscription service 
+    profiles:
+        active: ${activeProfiles}

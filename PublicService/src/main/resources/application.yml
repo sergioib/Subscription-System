@@ -1,0 +1,8 @@
+server:
+  port: 8885
+  
+spring:
+    application:
+      name: Public service 
+    profiles:
+        active: ${activeProfiles}

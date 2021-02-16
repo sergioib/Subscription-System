@@ -1,0 +1,13 @@
+spring:
+    rabbitmq:
+        host: localhost
+        port: 5672
+        addresses: localhost:5672
+        username: guest
+        password: guest
+        virtual-host: /
+        dynamic: true
+                
+emailService:
+    rabbitmq:
+        queue: subscriptionQueue
